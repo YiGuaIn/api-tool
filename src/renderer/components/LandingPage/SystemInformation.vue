@@ -32,16 +32,16 @@
 
 <script>
   export default {
-    data () {
-      return {
-        electron: process.versions['atom-shell'],
-        name: 'landing-page',
-        node: process.versions.node,
-        path: '/',
-        platform: require('os').platform(),
-        vue: require('vue/package.json').version
+      data () {
+          return {
+              electron: process.versions['atom-shell'],
+              name: 'landing-page',
+              node: process.versions.node,
+              path: '/',
+              platform: require('os').platform(),
+              vue: require('vue/package.json').version
+          }
       }
-    }
   }
 </script>
 

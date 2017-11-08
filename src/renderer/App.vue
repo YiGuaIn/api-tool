@@ -6,7 +6,7 @@
 
 <script>
   export default {
-    name: 'apigen'
+      name: 'apigen'
   }
 </script>
 
