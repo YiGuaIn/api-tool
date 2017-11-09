@@ -1,3 +1,3 @@
 module.exports = {
-    SLICE_STAR_INNER: /^\/\*\*.*(\*\/)+?/gm
+    SLICE_STAR_INNER: /\/\*\*(.*?)\*\//g
 }

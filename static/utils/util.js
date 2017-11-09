@@ -15,3 +15,12 @@ function convertObject(obj) {
 function addObject(obj) {
 
 }
+
+/**
+ * 删除接口
+ * @param {Object} obj - 这是一个对象
+ * @param {Object} obj - 这是一个对象
+ */
+function delObject(obj) {
+
+}

@@ -41,14 +41,14 @@ class FileTool {
 let tool = new FileTool()
 let arrs = []
 let file = tool.readFile(process.cwd() + '/static/utils/util.js')
-file = file.replace(/[\r\n]/g, '')
-let regx = new RegExp(regex.SLICE_STAR_INNER)
-file = regx.exec(file)[0].replace(/^(\s*)@(\S)/gm, '$1cls\\@$2')
-// console.log(file.split('/**'))
-arrs = file.split('@')
+file = file.replace(/[\r\n]/g, '').replace(/^(\s*)/g, '')
+arrs = file.toString().match(regex.SLICE_STAR_INNER)
 console.log(arrs)
+// file = regx.exec(file)[0].replace(/^(\s*)@(\S)/gm, '$1cls\\@$2')
+// console.log(file.split('/**'))
+// arrs = file.split('@')
 // arrs.forEach(item => {
 //     let tag = item.match(/^(\S+)(?:\s+(\S[\s\S]*))?/)
 //     console.log(tag)
 // })
-// console.log(regx.exec(file))
+
