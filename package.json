@@ -1,7 +1,7 @@
 {
   "name": "apigen",
   "version": "0.0.0",
-  "author": "element-bot <wallement@gmail.com>",
+  "author": "xiulian",
   "description": "An apigen electron application.",
   "license": null,
   "main": "./dist/electron/main.js",
@@ -20,7 +20,7 @@
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix",
-    "file": "node static/utils/readFiles.js test",
+    "file": "node static/utils/parser.js test",
     "jsdoc": "jsdoc -r -c conf.json -d docs"
   },
   "build": {
