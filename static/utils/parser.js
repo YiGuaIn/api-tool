@@ -11,6 +11,7 @@ let { ApiModel, ParamModel } = require('./models')
  * @returns {Array}
  */
 function parseByFile (file) {
+    console.log(file)
     let arrs = []
     let stream = fileTool.readFile(file)
     stream = stream.replace(regex.MATCH_R_N, regex.REPLACE_EMPTY).replace(regex.MATCH_SPACES, regex.REPLACE_EMPTY)
@@ -18,7 +19,7 @@ function parseByFile (file) {
     arrs.map((item, index) => { 
         arrs[index] = replaceByApiText(item)
     })
-    return arrs
+    return splitByApiText(arrs)
 }
 /**
  * 正则替换分解方法
@@ -45,8 +46,7 @@ function splitByApiText (list) {
     list.forEach(function (elem) {
         apiList.push(elem.split(regex.SPLIT_FLAG))
     }, this)
-    parseByApiText(apiList)
-    // return apiList;
+    return parseByApiText(apiList)
 }
 /**
  * 解析参数，生成接口对象
@@ -58,12 +58,16 @@ function parseByApiText (list) {
     list.forEach((item, index) => {
         apiList.push(generatorObject(item))
     })
-    console.log(apiList)
-    // return apiList
+    return apiList
 }
-
+/**
+ * 生成标准api对象数组
+ * @param {Array} params 
+ */
 function generatorObject (params) {
-    let api = Object.assign({}, ApiModel)
+    let api = {...ApiModel}
+    api.reqParams = []
+    api.resParams = []
     params.forEach((param, index) => {
         if (param.indexOf('@') < 0) {
             api.name = param
@@ -84,21 +88,18 @@ function generatorObject (params) {
                 api.method = getFieldText(param)
                 break
             case Enums.PARAM:
-                let paramModel = Object.assign({}, ParamModel)
-                let fieldName = param.match(/\}(.*?)\s?-/g)[0].replace(/\}\s(.*?)\s-/, '$1')
-                let fieldType = param.match(/\{(.*?)\}/g)[0].replace(/\{|\}/g, regex.REPLACE_EMPTY)
-                let fieldDesc = param.match(/-\s.*/g)[0].replace(/-\s/g, regex.REPLACE_EMPTY)
-                paramModel.fieldName = fieldName
-                paramModel.fieldType = fieldType
-                paramModel.fieldDesc = fieldDesc
-                api.reqParams.push(JSON.stringify(paramModel))
+                api.reqParams.push(JSON.stringify(getParamField(param)))
+                break
+            case Enums.RESPONE:
+                api.resParams.push(JSON.stringify(getParamField(param)))
+                break
+            default:
                 break
             }
         }
     })
     return api
 }
-
 /**
  * 功能参数转换
  * @param {String} param 
@@ -106,8 +107,23 @@ function generatorObject (params) {
 function getFieldText (param) {
     let arr = param.match(/\s.*/g)
     if (arr.length <= 0) return regex.REPLACE_EMPTY
-    return arr[0]
+    return arr[0].trim()
+}
+/**
+ * 解析请求参数/响应参数
+ * @param {any} param - 参数
+ */
+function getParamField (param) {
+    let fieldName, fieldType, fieldDesc
+    let paramModel = {...ParamModel}
+    fieldName = param.match(/\}(.*?)\s?-/g)[0].replace(/\}\s(.*?)\s-/, '$1')
+    fieldType = param.match(/\{(.*?)\}/g)[0].replace(/\{|\}/g, regex.REPLACE_EMPTY)
+    fieldDesc = param.match(/-\s.*/g)[0].replace(/-\s/g, regex.REPLACE_EMPTY)
+    paramModel.fieldName = fieldName.trim()
+    paramModel.fieldType = fieldType.trim()
+    paramModel.fieldDesc = fieldDesc.trim()
+    return paramModel
 }
 
-let apilist = parseByFile(process.cwd() + '/static/utils/util.js')
-splitByApiText(apilist)
+// let apilist = parseByFile(process.cwd() + '/static/utils/util.js')
+exports.parseByFile = parseByFile
