@@ -1,1 +1,1 @@
-<ul><li><a href="" name=""></a></li></ul>
+<div class="sidebar"><ul><li><a href="" name=""></a></li></ul></div>
