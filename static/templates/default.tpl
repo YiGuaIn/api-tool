@@ -15,8 +15,9 @@
                 padding: 0;
                 margin: 0;
             }
+            a { text-decoration: none;}
             ul {
-                padding: 20px;
+                padding: 30px 0;
                 text-align: center;
                 box-sizing: border-box;
             }
@@ -24,10 +25,19 @@
                 list-style: none;
                 padding: 12px 5px;
             }
+            li:hover { background-color: #1abc9c; }
             header {
+                position: relative;
                 height: 80px;
                 width: 100%;
-                background-color: #cccccc;
+                font-size: 28px;
+                line-height: 80px;
+                padding-left: 48px;
+                font-weight: 600;
+                color: #337777;
+                z-index: 1;
+                background-color: #B8E1E1;
+                box-sizing: border-box;
             }
             aside {
                 position: absolute;
@@ -36,7 +46,7 @@
                 left: 0;
                 width: 270px;
                 height: 100%;
-                background-color: #cccccc;
+                background-color: #B8E1E1;
                 box-sizing: border-box;
             }
             .content {
@@ -46,13 +56,21 @@
                 overflow-y: auto;
                 padding: 30px;
             }
-            p {
-                margin-bottom: 500px;
+            .parag { margin-bottom: 40px; }
+            .parag:last-of-type { margin-bottom: 200px; }
+            p { color: #333 }
+            p.title{
+                font-size: 18px;
+                color: #419BF9;
             }
+            table,table tr th, table tr td { border:1px solid #B8E1E1; color: #333333; }
+            table { text-align: center; border: 1px solid #B8E1E1; box-sizing: border-box; border-collapse: collapse; }
+            tr { height: 36px;}
+            th { font-weight: 500; padding: 0 30px;}
         </style>
     </head>
     <body>
-        <header></header>
+        <header>Mouse Tool</header>
         <div class="container">
             <aside>
                 <ul>

@@ -11,7 +11,6 @@ let { ApiModel, ParamModel } = require('./models')
  * @returns {Array}
  */
 function parseByFile (file) {
-    console.log(file)
     let arrs = []
     let stream = fileTool.readFile(file)
     stream = stream.replace(regex.MATCH_R_N, regex.REPLACE_EMPTY).replace(regex.MATCH_SPACES, regex.REPLACE_EMPTY)
@@ -72,7 +71,9 @@ function generatorObject (params) {
         if (param.indexOf('@') < 0) {
             api.name = param
         } else {
-            let flag = param.match(regex.NOTE_FIELD)[0].replace('@', regex.REPLACE_EMPTY).trim()
+            let fileds = param.match(regex.NOTE_FIELD)
+            if (fileds === null || fileds === 'undifined' || fileds.length <= 0) return
+            let flag = fileds[0].replace('@', regex.REPLACE_EMPTY).trim()
             if (typeof (flag) === 'undefined' || flag == null) return regex.REPLACE_EMPTY
             switch (flag) {
             case Enums.NAME:
@@ -116,14 +117,16 @@ function getFieldText (param) {
 function getParamField (param) {
     let fieldName, fieldType, fieldDesc
     let paramModel = {...ParamModel}
-    fieldName = param.match(/\}(.*?)\s?-/g)[0].replace(/\}\s(.*?)\s-/, '$1')
-    fieldType = param.match(/\{(.*?)\}/g)[0].replace(/\{|\}/g, regex.REPLACE_EMPTY)
-    fieldDesc = param.match(/-\s.*/g)[0].replace(/-\s/g, regex.REPLACE_EMPTY)
-    paramModel.fieldName = fieldName.trim()
-    paramModel.fieldType = fieldType.trim()
-    paramModel.fieldDesc = fieldDesc.trim()
+    // fieldName = param.match(/\}(.*?)\s?-/g)[0].replace(/\}\s(.*?)\s-/, '$1')
+    // fieldType = param.match(/\{(.*?)\}/g)[0].replace(/\{|\}/g, regex.REPLACE_EMPTY)
+    // fieldDesc = param.match(/-\s.*/g)[0].replace(/-\s/g, regex.REPLACE_EMPTY)
+    fieldName = /\}\s(.*?)\s?-/g.exec(param)
+    fieldType = /\{(.*?)\}/g.exec(param)
+    fieldDesc = /-\s.*/g.exec(param)
+    paramModel.fieldName = fieldName == null ? '' : fieldName[0].replace(/\}\s(.*?)\s-/, '$1').trim()
+    paramModel.fieldType = fieldType == null ? '' : fieldType[0].replace(/\{|\}/g, regex.REPLACE_EMPTY).trim()
+    paramModel.fieldDesc = fieldDesc == null ? '' : fieldDesc[0].replace(/-\s(.*?)/g, '$1').trim()
     return paramModel
 }
 
-// let apilist = parseByFile(process.cwd() + '/static/utils/util.js')
 exports.parseByFile = parseByFile

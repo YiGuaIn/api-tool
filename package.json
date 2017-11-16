@@ -20,7 +20,7 @@
     "test": "npm run unit && npm run e2e",
     "unit": "karma start test/unit/karma.conf.js",
     "postinstall": "npm run lint:fix",
-    "file": "node static/utils/parserHtml.js test",
+    "file": "node static/utils/index.js filename=.route.js",
     "jsdoc": "jsdoc -r -c conf.json -d docs"
   },
   "build": {

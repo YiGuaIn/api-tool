@@ -1,45 +1,53 @@
 'use strict'
+
 let fs = require('fs')
+let path = require('path')
 let glob = require('glob')
 
 class FileTool {
-    isFile (name) { // 判断文件是否存在
+    /**
+     * 判断文件是否存在
+     * @param {String} name 
+     */
+    isFile (name) {
         if (!fs.existsSync(name)) return false
         return fs.statSync(name).isFile()
     }
+    /**
+     * 生成Html业务
+     * @param {String} name 
+     * @param {Buffer} buff 
+     */
     mkFile (name, buff) {
         if (name === 'undefined' || name == null || name === '') throw Error
-        let spilts = name.match(/\/.*/)[0]
-        let dir = spilts.replace(/^(.*)\/[^\/]*$/, '$1')
-        // let dirs = []
-        // let file = ''
-        // spilts.forEach(element => {
-        //     if (element !== '') {
-        //         if (element.endsWith('.html')) {
-        //             file = element
-        //         } else {
-        //             dirs.push(element)
-        //         }
-        //     }
-        // })
-        // fs.readdir(process.cwd() + dir, (err, fd) => {
-        //     if(err){
-        //         if(err.code === 'ENOENT'){
-
-        //         }
-        //     }
-        //     console.log(err)
-        // })
-        // fs.open(name, 'w+', (err, fd) => {
-        //     // let file = fs.statSync(name)
-        //     // console.log(file)
-        //     console.log(err)
-        //     // if (err) throw err
-        //     // console.log(fd)
-        //     // fs.write(name, fd, (err, fw) => {
-        //     //     if (err) throw err
-        //     // })
-        // })
+        return new Promise((resolve, reject) => {
+            let per = path.parse(name) 
+            let dir = per.dir
+            let filename = per.base
+            let spilts = dir.split(/[/\\]/)
+            let mkDir = process.cwd()
+            spilts.forEach(elem => {
+                if (elem === '') return false
+                mkDir = path.join(mkDir, elem)
+                if (fs.existsSync(mkDir)) return false
+                fs.mkdir(mkDir, (err, files) => {
+                    if (err) throw err
+                })
+            })
+            filename = path.join(mkDir, filename)
+            buff = Buffer.from(buff)
+            let writeStream = fs.createWriteStream(filename)
+            writeStream.on('open', _ => {
+                writeStream.write(buff)
+                writeStream.end()
+            })
+            writeStream.on('finish', _ => {
+                writeStream.close()
+            })
+            writeStream.on('error', err => {
+                console.log(err)
+            })
+        })
     }
     /**
      * @param {String} name - 文件名
@@ -54,7 +62,13 @@ class FileTool {
         }
         return file
     }
-    getFiles (pattern) { // 获取指定文件名的所有文件
+    /**
+     * 获取指定文件名的所有文件
+     * @param {String} pattern
+     * @returns Array
+     * @memberof FileTool
+     */
+    getFiles (pattern) {
         let files = []
         try {
             files = glob.sync(pattern)
@@ -63,9 +77,19 @@ class FileTool {
         }
         return files
     }
-    getFilesTotal (pattern) { // 获取指定文件的数量
+    /**
+     * 获取指定文件的数量
+     * @param {Array} pattern
+     */
+    getFilesTotal (pattern) {
         return this.getFiles(pattern).length
-    } 
+    }
+    /**
+     * 异步执行生成HTML文件
+     */
+    async generatorHtml (name, buff) {
+        await this.mkFile(name, buff)
+    }
 }
 
 module.exports = new FileTool()
