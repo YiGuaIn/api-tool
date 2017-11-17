@@ -47,12 +47,18 @@ function createConfig (name, conf) {
 function includeGenHtml () {
     return new Promise((resolve, reject) => {
         let { generatorHtml } = require('./parserHtml')
+        generatorHtml()
     })
 }
 
 async function init () {
-    await createConfig(filename, config)
-    await includeGenHtml()
+    try {
+        await createConfig(filename, config)
+        await includeGenHtml()
+    } catch (err) {
+        console.log(err)
+        throw err
+    }    
 }
 
 init()

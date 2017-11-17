@@ -1,4 +1,4 @@
-let path = require('path')
+let config = require('./config.json')
 let fsTool = require('./readFiles')
 let cheerio = require('cheerio')
 let rootDir = process.cwd()
@@ -10,8 +10,6 @@ let sidebar = cheerio.load(fsTool.readFile(sidebarTpl), {decodeEntities: false})
 let content = cheerio.load(fsTool.readFile(contentTpl), {decodeEntities: false})
 let $ = cheerio.load(fsTool.readFile(name), {decodeEntities: false})
 let {parseByFile} = require('./parser')
-let config = require('./config.json')
-console.log(config)
 
 function generatorHtml () {
     let apiList = parseByFile(file)
@@ -47,18 +45,19 @@ function generatorHtml () {
     $('aside').text(sidebarText)
     $('.content').text(contentText)
     let apiFile = ''
+    let apiDir = config.htmldir === '' ? 'doc' : config.htmldir
+    let apihtml = config.htmlname === '' ? 'api.html' : config.htmlname
     switch (process.platform) {
     case 'win32':
-        apiFile = path.join('\\doc\\api.html')
+        apiFile = '\\' + apiDir + '\\' + apihtml
         break
     case 'linux':
-        apiFile = path.join('/doc/api.html')
+        apiFile = '/' + apiDir + '/' + apihtml
         break
     default:
         break
     }
-    console.log(config)
-    // fsTool.generatorHtml(apiFile, $.html())
+    fsTool.generatorHtml(apiFile, $.html())
 }
 
 exports.generatorHtml = generatorHtml

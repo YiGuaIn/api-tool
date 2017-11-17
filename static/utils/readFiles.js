@@ -3,6 +3,8 @@
 let fs = require('fs')
 let path = require('path')
 let glob = require('glob')
+let config = require('./config.json')
+let { Readable } = require('stream')
 
 class FileTool {
     /**
@@ -62,16 +64,30 @@ class FileTool {
         }
         return file
     }
+    readMutipleFile () {
+        let files = this.getFiles() || []
+        if (files.length === 0) throw new Error('找不到文件...')
+        let buff = ''
+        files.forEach(file => {
+            let str = fs.readFileSync(file)
+            buff += Buffer.from(str)
+        })
+        return buff
+    }
     /**
      * 获取指定文件名的所有文件
-     * @param {String} pattern
      * @returns Array
      * @memberof FileTool
      */
-    getFiles (pattern) {
+    getFiles () {
         let files = []
+        let dir = config.filedir === '' ? path.join(process.cwd(), 'src') : config.filedir
+        let fileLastName = config.filename === '' ? '*.api.js' : config.filename
+        let pattern = path.join(dir, fileLastName)
+        console.log(pattern)
         try {
             files = glob.sync(pattern)
+            console.log(files)
         } catch (e) {
             throw new Error(e)
         }

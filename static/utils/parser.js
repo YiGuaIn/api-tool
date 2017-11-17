@@ -12,7 +12,8 @@ let { ApiModel, ParamModel } = require('./models')
  */
 function parseByFile (file) {
     let arrs = []
-    let stream = fileTool.readFile(file)
+    let stream = fileTool.readMutipleFile()
+    if (stream === null || stream === 'undefined' || stream === '') throw new Error('没找到文件')
     stream = stream.replace(regex.MATCH_R_N, regex.REPLACE_EMPTY).replace(regex.MATCH_SPACES, regex.REPLACE_EMPTY)
     arrs = stream.toString().match(regex.SLICE_STAR_INNER)
     arrs.map((item, index) => { 

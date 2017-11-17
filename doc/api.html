@@ -70,8 +70,62 @@
     <body>
         <header>Mouse Tool</header>
         <div class="container">
-            <aside><ul><li><a href="#转换接口" name="转换接口">转换接口</a></li><li><a href="#添加接口" name="添加接口">添加接口</a></li><li><a href="#删除接口" name="删除接口">删除接口</a></li></ul></aside>
+            <aside><ul><li><a href="#添加列表" name="添加列表">添加列表</a></li><li><a href="#查询数据" name="查询数据">查询数据</a></li><li><a href="#删除数据" name="删除数据">删除数据</a></li><li><a href="#转换接口" name="转换接口">转换接口</a></li><li><a href="#添加接口" name="添加接口">添加接口</a></li><li><a href="#删除接口" name="删除接口">删除接口</a></li></ul></aside>
             <div class="content"><div class="parag">
+    <a href="#添加列表" name="添加列表"><h2 id="添加列表">添加列表</h2></a>
+    <p class="desc-title title">接口描述</p>
+    <p class="descript">添加列表数据</p>
+    <p class="host-title title">接口地址</p>
+    <p class="hostname">http://192.168.11.110/api/addList</p>
+    <p class="method-title title">接口方法</p>
+    <p class="method">POST</p>
+    <p class="req-title title">请求参数</p>
+    <table class="request">
+        <thead><tr><th>字段</th><th>字段名</th><th>类型</th><th>备注</th></tr></thead>
+        <tbody><tr><td>data</td><td>数据集</td><td>String</td><td></td></tr><tr><td>type</td><td>转换类型</td><td>Int</td><td></td></tr></tbody>
+    </table>
+    <p class="res-title title">响应参数</p>
+    <table class="respone">
+        <thead><tr><th>字段</th><th>字段名</th><th>类型</th><th>备注</th></tr></thead>
+        <tbody><tr><td>code</td><td>状态码</td><td>Int</td><td></td></tr><tr><td>errmsg</td><td>错误信息</td><td>String</td><td></td></tr></tbody>
+    </table>
+</div><div class="parag">
+    <a href="#查询数据" name="查询数据"><h2 id="查询数据">查询数据</h2></a>
+    <p class="desc-title title">接口描述</p>
+    <p class="descript">查询用户数据</p>
+    <p class="host-title title">接口地址</p>
+    <p class="hostname">http://192.168.11.110/api/add</p>
+    <p class="method-title title">接口方法</p>
+    <p class="method">POST</p>
+    <p class="req-title title">请求参数</p>
+    <table class="request">
+        <thead><tr><th>字段</th><th>字段名</th><th>类型</th><th>备注</th></tr></thead>
+        <tbody><tr><td>username</td><td>用户名</td><td>String</td><td></td></tr><tr><td>password</td><td>密码</td><td>String</td><td></td></tr></tbody>
+    </table>
+    <p class="res-title title">响应参数</p>
+    <table class="respone">
+        <thead><tr><th>字段</th><th>字段名</th><th>类型</th><th>备注</th></tr></thead>
+        <tbody><tr><td>code</td><td>状态码</td><td>Int</td><td></td></tr><tr><td>msg</td><td>响应信息</td><td>String</td><td></td></tr></tbody>
+    </table>
+</div><div class="parag">
+    <a href="#删除数据" name="删除数据"><h2 id="删除数据">删除数据</h2></a>
+    <p class="desc-title title">接口描述</p>
+    <p class="descript">删除用户数据</p>
+    <p class="host-title title">接口地址</p>
+    <p class="hostname">http://192.168.11.110/api/del</p>
+    <p class="method-title title">接口方法</p>
+    <p class="method">POST</p>
+    <p class="req-title title">请求参数</p>
+    <table class="request">
+        <thead><tr><th>字段</th><th>字段名</th><th>类型</th><th>备注</th></tr></thead>
+        <tbody><tr><td>id</td><td>用户ID</td><td>Int</td><td></td></tr></tbody>
+    </table>
+    <p class="res-title title">响应参数</p>
+    <table class="respone">
+        <thead><tr><th>字段</th><th>字段名</th><th>类型</th><th>备注</th></tr></thead>
+        <tbody><tr><td>code</td><td>状态码</td><td>Int</td><td></td></tr><tr><td>data</td><td>响应数据</td><td>Object</td><td></td></tr></tbody>
+    </table>
+</div><div class="parag">
     <a href="#转换接口" name="转换接口"><h2 id="转换接口">转换接口</h2></a>
     <p class="desc-title title">接口描述</p>
     <p class="descript">用来转换数据的接口</p>
